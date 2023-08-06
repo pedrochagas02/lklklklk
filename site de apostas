@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Site de Apostas</title>
+  <style>
+    body
+    {
+        background-color: rgb(10, 139, 32);
+    }
+    .container
+     {
+      margin: 50px auto;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  
+    <div class="container">
+    <h1>Blaze</h1>
+    <p>Saldo: R$<span id="saldo">100.00</span></p>
+    <label for="valorAposta">Valor da Aposta: R$</label>
+    <input type="number" id="valorAposta" step="0.01">
+    <button onclick="realizarAposta()">Apostar</button>
+    <p id="resultado"></p>
+  </div>
+
+  <script>
+    
+    var saldo = 1500.00;
+    
+    function realizarAposta() {
+      var valorAposta = parseFloat(document.getElementById("valorAposta").value);
+
+      if (valorAposta <= 0 || isNaN(valorAposta)) 
+      {
+        alert("Digite um valor válido para a aposta!");
+        return;
+      }
+
+      if (valorAposta > saldo) 
+      {
+        alert("Saldo insuficiente!");
+        return;
+      }
+
+      var resultado = Math.random() >= 0.5;
+
+      if (resultado) 
+      {
+        saldo += valorAposta;
+        document.getElementById("resultado").innerHTML = "Você ganhou! Seu novo saldo é de R$" + saldo.toFixed(2);
+      } 
+      else 
+      {
+        saldo -= valorAposta;
+        document.getElementById("resultado").innerHTML = "Você perdeu! Seu novo saldo é de R$" + saldo.toFixed(2);
+
+        if (saldo <= 0) {
+          document.getElementById("valorAposta").disabled = true;
+          document.getElementById("resultado").innerHTML += "<br>Saldo zerado. Você não pode mais apostar.";
+        }
+      }
+
+      document.getElementById("saldo").innerHTML = saldo.toFixed(2);
+    }
+  </script>
+</body>
+</html>
